@@ -12,10 +12,22 @@ export const Header = () => {
                 <Button>Connected</Button> :
                 <Button onClick={activateBrowserWallet}>Connect</Button>
             }
-            <div></div> {/*Box 1 */}
-            <div></div> {/*Box 2 */}
-            <div></div> {/*Box 3 */}
-            <div></div> {/*Box 4 */}
+            <div>
+                {/*Box 1 */}
+                <h1>CUBE</h1>
+            </div>
+            <div>
+                {/*Box 2 */}
+                <h1>SAND</h1>
+            </div>
+            <div>
+                {/*Box 3 */}
+                <h1>ETH</h1>
+            </div>
+            <div>
+                {/*Box 4 */}
+                <h1>COIN</h1>
+            </div>
         </div>
     );
 };
