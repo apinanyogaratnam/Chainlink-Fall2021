@@ -6274,6 +6274,11 @@
   "resolved" "https://registry.npmjs.org/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz"
   "version" "1.0.1"
 
+"ganache@^6.4.5":
+  "integrity" "sha512-RVN/wOh3nEO4cG3PFojU7RXZTS+fYEW/mgg2bMZ8EdOP02T/HsQnw2b+fF2jKpdQ8ILz5EJWlWcZOGbzx2inNQ=="
+  "resolved" "https://registry.npmjs.org/ganache/-/ganache-6.4.5.tgz"
+  "version" "6.4.5"
+
 "gensync@^1.0.0-beta.1":
   "integrity" "sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg=="
   "resolved" "https://registry.npmjs.org/gensync/-/gensync-1.0.0-beta.2.tgz"
