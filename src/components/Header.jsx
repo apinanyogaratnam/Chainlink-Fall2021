@@ -7,7 +7,7 @@ export const Header = () => {
     const isConnected = account !== undefined;
     const SAND = '0x3845badAde8e6dFF049820680d1F14bD3903a5d0';
     const CUBE = '0xdf801468a808a32656d2ed2d2d80b72a129739f4';
-    consg MANA = '0x0f5d2fb29fb7d3cfee444a200298f468908cc942'
+    const MANA = '0x0f5d2fb29fb7d3cfee444a200298f468908cc942'
 
     let sandBalance = useTokenBalance(SAND, account);
     sandBalance = sandBalance ? sandBalance._hex : -1;
