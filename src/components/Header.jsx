@@ -38,12 +38,12 @@ export const Header = () => {
                 </div>
                 <div className="coin-container" onClick={() => console.log("asdf")}>
                     {/*Box 3 */}
-                    <h1>COIX</h1>
+                    <h1>MANA</h1>
                     <h4>Balance: {-1}</h4>
                 </div>
                 <div className="coin-container" onClick={() => console.log("asdf")}>
                     {/*Box 4 */}
-                    <h1>COIN</h1>
+                    <h1>ETH</h1>
                     <h4>Balance: {-1}</h4>
                 </div>
             </div>
