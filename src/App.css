@@ -46,9 +46,10 @@
   align-items: center;
   width: 20%;
   height: 40%;
-  background-color: blue;
+  background-color: grey;
   float: left;
   margin: 10px;
+  border-radius: 10px;
 }
 
 @keyframes App-logo-spin {
