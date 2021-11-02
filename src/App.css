@@ -50,6 +50,7 @@
   float: left;
   margin: 10px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 @keyframes App-logo-spin {
