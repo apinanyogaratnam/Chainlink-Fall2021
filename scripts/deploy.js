@@ -1,4 +1,4 @@
-const ethers = require('ethers');
+const ethers = require('hardhat');
 async function main() {
     const [deployer] = await ethers.getSigners();
     console.log(`Deploying contravts with the account: ${deployer.address}`);
