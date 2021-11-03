@@ -1,5 +1,4 @@
-import { ethers } from "ethers";
-
+const ethers = require('ethers');
 async function main() {
     const [deployer] = await ethers.getSigners();
     console.log(`Deploying contravts with the account: ${deployer.address}`);
