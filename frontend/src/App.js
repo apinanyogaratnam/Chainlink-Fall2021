@@ -6,7 +6,7 @@ import { Header } from './components/Header';
 function App() {
   return (
     <DAppProvider config={{
-      supportedChains: [ChainId.Mainnet, ChainId.Localhost]
+      supportedChains: [ChainId.Mainnet, ChainId.Localhost, ChainId.Rinkeby]
     }}>
       <Header />
     </DAppProvider>
