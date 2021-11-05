@@ -17,6 +17,7 @@ async function main() {
     };
     fs.writeFileSync('frontend/src/Greeter.json', JSON.stringify(data));
 }
+
 main()
     .then(() => process.exit(0))
     .catch(error => {
