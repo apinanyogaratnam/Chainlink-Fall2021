@@ -19,4 +19,21 @@ contract FundOperator {
 
     constructor() {
     }
+
+    function checkIfTokenExists(address token) public view returns (bool) {
+        for (uint256 i = 0; i < isOperator.length; i++) {
+            if (isOperator[i].token.token == token) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+
+    // function addAsset(address token, string name, uint256 weighting) public onlyOwner{
+    //     require(weighting > 0 && weighting <= 100);
+    //     require(isOperator[token] == 0);
+    //     isOperator[token] = Asset(Token(name, token), weighting);
+    // }
 }
