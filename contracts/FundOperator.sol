@@ -1,5 +1,7 @@
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/access/ownership/Ownable.sol";
+
 contract FundOperator {
 
     // make one giant struct to save on storage fees
