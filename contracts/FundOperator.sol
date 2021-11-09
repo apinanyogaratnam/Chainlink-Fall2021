@@ -44,10 +44,4 @@ contract FundOperator {
 
         isOperator[isOperator.length] = asset;
     }
-
-    // function addAsset(address token, string name, uint256 weighting) public onlyOwner{
-    //     require(weighting > 0 && weighting <= 100);
-    //     require(isOperator[token] == 0);
-    //     isOperator[token] = Asset(Token(name, token), weighting);
-    // }
 }
