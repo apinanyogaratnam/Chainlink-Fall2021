@@ -30,7 +30,7 @@ contract FundOperator {
         return false;
     }
 
-    function addAsset(string _name, address _token, uint256 _weighting) public onlyOwner{
+    function addAsset(string _name, address _token, uint256 _weighting) public onlyOwner {
         require(_weighting > 0 && _weighting <= 100, "Weighting must be between 1 and 100");
         require(!checkIfTokenExists(_token), "Token already exists");
 
