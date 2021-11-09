@@ -15,14 +15,14 @@ contract FundOperator {
         uint256 weighting; // a number from 1 to 100
     }
     
-    mapping (uint256 => Asset) public isOperator;
+    mapping (uint256 => Asset) public Assets;
 
     constructor() {
     }
 
     function checkIfTokenExists(address _token) public view returns (bool) {
-        for (uint256 i = 0; i < isOperator.length; i++) {
-            if (isOperator[i].token.token == _token) {
+        for (uint256 i = 0; i < Assets.length; i++) {
+            if (Assets[i].token.token == _token) {
                 return true;
             }
         }
@@ -42,6 +42,6 @@ contract FundOperator {
             weighting: _weighting
         });
 
-        isOperator[isOperator.length] = asset;
+        Assets[Assets.length] = asset;
     }
 }
