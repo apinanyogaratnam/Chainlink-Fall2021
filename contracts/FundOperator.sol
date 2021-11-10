@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/access/ownership/Ownable.sol";
 
 contract FundOperator {
 
-    // make one giant struct to save on storage fees
+    // change to just address of token and weighting
     struct Token {
         string name;
         address token;
