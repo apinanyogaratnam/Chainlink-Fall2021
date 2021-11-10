@@ -4,26 +4,19 @@ import "@openzeppelin/contracts/access/ownership/Ownable.sol";
 
 contract FundOperator {
 
-    // change to just address of token and weighting
     struct Token {
-        string name;
         address token;
-    }
-
-    struct Asset {
-        Token token;
-        uint256 weighting; // a number from 1 to 100
+        uint8 weighting;
     }
     
-    // change to uint8
-    mapping (uint256 => Asset) public assets;
+    mapping (uint8 => Token) public tokens;
 
     constructor() {
     }
 
     function checkIfTokenExists(address _token) public view returns (bool) {
-        for (uint256 i = 0; i < assets.length; i++) {
-            if (assets[i].token.token == _token) {
+        for (uint8 i = 0; i < tokens.length; i++) {
+            if (tokens[i].token == _token) {
                 return true;
             }
         }
@@ -31,18 +24,11 @@ contract FundOperator {
         return false;
     }
 
-    function addAsset(string _name, address _token, uint256 _weighting) public onlyOwner {
-        require(_weighting > 0 && _weighting <= 100, "Weighting must be between 1 and 100");
+    function addAsset(address _token, uint8 _weighting) public onlyOwner {
         require(!checkIfTokenExists(_token), "Token already exists");
+        require(_weighting >= 0 && _weighting <= 100, "Weighting must be between 0 and 100");
 
-        Asset asset = Asset({
-            token: Token({
-                name: _name,
-                token: _token
-            }),
-            weighting: _weighting
-        });
-
-        assets[assets.length] = asset;
-    }
+        Token newToken = Token(_token, _weighting);
+        tokens[tokens.length] = newToken;
+    }   
 }
