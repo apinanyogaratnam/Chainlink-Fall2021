@@ -15,6 +15,7 @@ contract FundOperator {
         uint256 weighting; // a number from 1 to 100
     }
     
+    // change to uint8
     mapping (uint256 => Asset) public assets;
 
     constructor() {
