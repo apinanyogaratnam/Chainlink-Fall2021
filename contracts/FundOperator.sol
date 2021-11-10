@@ -14,8 +14,22 @@ contract FundOperator is Ownable {
     constructor() {
     }
 
+// fix function so it compiles
+    function getLengthOfMapping() public view returns (uint8) {
+        uint8 count = 0;
+        while (true) {
+            if (tokens[count].token != address(0)) {
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        return count;
+    }
+
     function checkIfTokenExists(address _token) public view returns (bool) {
-        for (uint8 i = 0; i < tokens.length; i++) {
+        for (uint8 i = 0; i < getLengthOfMapping(); i++) {
             if (tokens[i].token == _token) {
                 return true;
             }
@@ -28,6 +42,6 @@ contract FundOperator is Ownable {
         require(!checkIfTokenExists(_token), "Token already exists");
         require(_weighting >= 0 && _weighting <= 100, "Weighting must be between 0 and 100");
 
-        tokens[tokens.length] = Token(_token, _weighting);
+        tokens[getLengthOfMapping()] = Token(_token, _weighting);
     }   
 }
