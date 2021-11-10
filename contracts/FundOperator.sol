@@ -28,7 +28,6 @@ contract FundOperator is Ownable {
         require(!checkIfTokenExists(_token), "Token already exists");
         require(_weighting >= 0 && _weighting <= 100, "Weighting must be between 0 and 100");
 
-        Token newToken = Token(_token, _weighting);
-        tokens[tokens.length] = newToken;
+        tokens[tokens.length] = Token(_token, _weighting);
     }   
 }
