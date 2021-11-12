@@ -7,6 +7,7 @@ import { activateWeb3, getGreeting } from './web3Client';
 export const Header = () => {
 
     const [isConnected, setIsConnected] = useState(true);
+    console.log(getGreeting());
 
     return (
         <div>
