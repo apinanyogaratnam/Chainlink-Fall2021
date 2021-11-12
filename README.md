@@ -1,4 +1,4 @@
-# Chainlink-Fall2021
+# Chainlink Fall 2021 Hackathon
 
 # Get started
 1. clone repository
