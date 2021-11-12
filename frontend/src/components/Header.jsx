@@ -1,6 +1,7 @@
 import { useEthers, useEtherBalance, useTokenBalance } from '@usedapp/core';
 import Button from '@material-ui/core/Button';
 import { formatEther, formatUnits } from '@ethersproject/units';
+import { GetGreeting } from './greetFunctions';
 
 export const Header = () => {
     const { account, activateBrowserWallet } = useEthers();
@@ -25,6 +26,7 @@ export const Header = () => {
     // formatUnits(ethBalance, 8);
     // formatUnits(cubeBalance, 8);
     // formatUnits(manaBalance, 8);
+    // console.log(GetGreeting());
 
     return (
         <div>

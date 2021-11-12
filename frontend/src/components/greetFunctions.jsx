@@ -13,11 +13,12 @@ export const SetGreeting = (greetingString) => {
 }
 
 export const GetGreeting = () => {
-    console.log(Greeter.address)
+    console.log("loggin address in getgreeting function", Greeter.address)
     const [tokenBalance] = useContractCall(
       Greeter.abi, // ABI interface of the called contract
       Greeter.address, // On-chain address of the deployed contract
       'getGreeting', // Method to be called
+      []
     ) ?? []
     return tokenBalance;
 }
