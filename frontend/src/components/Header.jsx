@@ -2,12 +2,12 @@ import Button from '@material-ui/core/Button';
 import Web3 from 'web3';
 import { useState } from 'react';
 import Greeter from '../Greeter.json';
-import { activateWeb3, getGreeting } from './web3Client';
+import { activateWeb3, viewGreeting } from './web3Client';
 
 export const Header = () => {
 
     const [isConnected, setIsConnected] = useState(true);
-    console.log(getGreeting());
+    viewGreeting();
 
     return (
         <div>

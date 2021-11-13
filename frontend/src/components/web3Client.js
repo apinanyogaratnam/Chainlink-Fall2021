@@ -2,6 +2,8 @@ import Web3 from 'web3';
 import Greeter from '../Greeter.json';
 
 let selectedAccount;
+let greeterContract;
+let isInitialized = false;
 
 export const activateWeb3 = async () => {
     let provider = window.ethereum;
@@ -17,6 +19,7 @@ export const activateWeb3 = async () => {
             })
             .catch(error => {
                 console.log(error);
+                return;
             });
         
         window.ethereum.on('accountsChanged', function(accounts) {
@@ -26,21 +29,18 @@ export const activateWeb3 = async () => {
     }
 
     const web3 = new Web3(provider);
-    // const networkId = await web3.eth.net.getId();
 
-    const greeterContract = new web3.eth.Contract(
+    greeterContract = new web3.eth.Contract(
         Greeter.abi,
         Greeter.address
     );
+
+    isInitialized = true;
 }
 
-export const getGreeting = async () => {
-    Greeter.abi.forEach(element => {
-        if (element.type === 'function' && element.name === 'getGreeting') {
-            console.log(element);
-            // return element.getGreeting().send({from: selectedAccount});
-        }
-    });
-
-    return null;
+export const viewGreeting = async () => {
+    if (!isInitialized) {
+        await activateWeb3();
+    }
+    greeterContract.methods.getGreeting().call();
 }
