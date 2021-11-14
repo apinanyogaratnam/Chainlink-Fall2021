@@ -1,9 +1,10 @@
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
 
 /// @title Multisignature wallet - Allows multiple parties to agree on transactions before execution.
 /// @author Stefan George - <stefan.george@consensys.net>
-contract MultiSigWallet {
+contract FundWallet {
 
     /*
      *  Events
@@ -97,7 +98,13 @@ contract MultiSigWallet {
         payable
     {
         if (msg.value > 0)
-            Deposit(msg.sender, msg.value);
+            emit Deposit(msg.sender, msg.value);
+    }
+
+    /// @dev receieve ether function allows to deposit ether.
+    receive() external payable {
+         if (msg.value > 0)
+            emit Deposit(msg.sender, msg.value);
     }
 
     /*
@@ -128,7 +135,7 @@ contract MultiSigWallet {
     {
         isOwner[owner] = true;
         owners.push(owner);
-        OwnerAddition(owner);
+        emit OwnerAddition(owner);
     }
 
     /// @dev Allows to remove an owner. Transaction has to be sent by wallet.
@@ -148,7 +155,7 @@ contract MultiSigWallet {
         }
         if (required > owners.length)
             changeRequirement(owners.length);
-        OwnerRemoval(owner);
+        emit OwnerRemoval(owner);
     }
 
     /// @dev Allows to replace an owner with a new owner. Transaction has to be sent by wallet.
@@ -167,8 +174,8 @@ contract MultiSigWallet {
             }
         isOwner[owner] = false;
         isOwner[newOwner] = true;
-        OwnerRemoval(owner);
-        OwnerAddition(newOwner);
+        emit OwnerRemoval(owner);
+        emit OwnerAddition(newOwner);
     }
 
     /// @dev Allows to change the number of required confirmations. Transaction has to be sent by wallet.
@@ -179,7 +186,7 @@ contract MultiSigWallet {
         validRequirement(owners.length, _required)
     {
         required = _required;
-        RequirementChange(_required);
+        emit RequirementChange(_required);
     }
 
     /// @dev Allows an owner to submit and confirm a transaction.
@@ -204,7 +211,7 @@ contract MultiSigWallet {
         notConfirmed(transactionId, msg.sender)
     {
         confirmations[transactionId][msg.sender] = true;
-        Confirmation(msg.sender, transactionId);
+        emit Confirmation(msg.sender, transactionId);
         executeTransaction(transactionId);
     }
 
@@ -217,7 +224,7 @@ contract MultiSigWallet {
         notExecuted(transactionId)
     {
         confirmations[transactionId][msg.sender] = false;
-        Revocation(msg.sender, transactionId);
+        emit Revocation(msg.sender, transactionId);
     }
 
     /// @dev Allows anyone to execute a confirmed transaction.
@@ -232,9 +239,9 @@ contract MultiSigWallet {
             Transaction storage txn = transactions[transactionId];
             txn.executed = true;
             if (external_call(txn.destination, txn.value, txn.data.length, txn.data))
-                Execution(transactionId);
+                emit Execution(transactionId);
             else {
-                ExecutionFailure(transactionId);
+                emit ExecutionFailure(transactionId);
                 txn.executed = false;
             }
         }
@@ -264,18 +271,21 @@ contract MultiSigWallet {
 
     /// @dev Returns the confirmation status of a transaction.
     /// @param transactionId Transaction ID.
-    /// @return Confirmation status.
+    /// @return confirm Confirmation status.
     function isConfirmed(uint transactionId)
         public
-        returns (bool)
+        view
+        returns (bool confirm)
     {
         uint count = 0;
+        confirm = false;
         for (uint i=0; i<owners.length; i++) {
             if (confirmations[transactionId][owners[i]])
                 count += 1;
             if (count == required)
-                return true;
+                confirm = true;
         }
+        return confirm;
     }
 
     /*
@@ -299,7 +309,7 @@ contract MultiSigWallet {
             executed: false
         });
         transactionCount += 1;
-        Submission(transactionId);
+        emit Submission(transactionId);
     }
 
     /*
@@ -310,6 +320,7 @@ contract MultiSigWallet {
     /// @return count Number of confirmations.
     function getConfirmationCount(uint transactionId)
         public
+        view
         returns (uint count)
     {
         for (uint i=0; i<owners.length; i++)
@@ -320,9 +331,10 @@ contract MultiSigWallet {
     /// @dev Returns total number of transactions after filers are applied.
     /// @param pending Include pending transactions.
     /// @param executed Include executed transactions.
-    /// @return Total number of transactions after filters are applied.
+    /// @return count Total number of transactions after filters are applied.
     function getTransactionCount(bool pending, bool executed)
         public
+        view
         returns (uint count)
     {
         for (uint i=0; i<transactionCount; i++)
@@ -335,17 +347,19 @@ contract MultiSigWallet {
     /// @return List of owner addresses.
     function getOwners()
         public
-        returns (address[] calldata)
+        view
+        returns (address[] memory)
     {
         return owners;
     }
 
     /// @dev Returns array with owner addresses, which confirmed transaction.
     /// @param transactionId Transaction ID.
-    /// @return Returns array of owner addresses.
+    /// @return _confirmations Returns array of owner addresses.
     function getConfirmations(uint transactionId)
         public
-        returns (address[] calldata _confirmations)
+        view
+        returns (address[] memory _confirmations)
     {
         address[] memory confirmationsTemp = new address[](owners.length);
         uint count = 0;
@@ -365,10 +379,11 @@ contract MultiSigWallet {
     /// @param to Index end position of transaction array.
     /// @param pending Include pending transactions.
     /// @param executed Include executed transactions.
-    /// @return Returns array of transaction IDs.
+    /// @return _transactionIds Returns array of transaction IDs.
     function getTransactionIds(uint from, uint to, bool pending, bool executed)
         public
-        returns (uint[] calldata _transactionIds)
+        view
+        returns (uint[] memory _transactionIds)
     {
         uint[] memory transactionIdsTemp = new uint[](transactionCount);
         uint count = 0;
