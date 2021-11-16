@@ -16,6 +16,9 @@ steps:
 5. compile contract by `npx hardhat compile`
 6. deploy script: `npx hardhat run scripts/deploy.js --network hardhat`
 
+`npx hardhat run scripts/deploy.js --network rinkeby`
+https://rinkeby.etherscan.io/tx/0x286c79f0dd7982e9ca2a75b1d6b7a4e62625d921a92692bc26b83a5d1bcadfa3
+
 
 # Basic Sample Hardhat Project
 
