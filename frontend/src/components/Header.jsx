@@ -7,7 +7,35 @@ import { activateWeb3, viewGreeting } from './web3Client';
 export const Header = () => {
 
     const [isConnected, setIsConnected] = useState(true);
-    viewGreeting();
+
+    const mintStream = async (e) => {
+        e.preventDefault();
+
+        const nftPortApiKey = process.env.REACT_APP_NFT_PORT_API_KEY;
+        const urlToMint = "https://api.nftport.xyz/v0/mints/easy/urls"
+        const body = {
+          "chain": "rinkeby",
+          "name": nameOfNft,
+          "description": descriptionOfNft,
+          "file_url": streamUrl,
+          "mint_to_address": address
+        };
+  
+        const auth = {
+          headers: {
+            Authorization: nftPortApiKey
+          }
+        };
+  
+        const res = await axios.post(urlToMint, body, auth);
+        
+        if (res.status === 200) {
+          alert("Successfully minted stream");
+          setNameOfNft("");
+          setDescriptionOfNft("");
+          // setAddress("");
+          setNftDeployedUrl(res.data.transaction_external_url);
+    }
 
     return (
         <div>
@@ -39,6 +67,7 @@ export const Header = () => {
                     <h4>Balance: {-1}</h4>
                 </div>
             </div>
+            <Button onClick={viewGreeting}>view greeting</Button>
         </div>
     );
 };
