@@ -3,22 +3,27 @@ import Web3 from 'web3';
 import { useState } from 'react';
 import Greeter from '../Greeter.json';
 import { activateWeb3, viewGreeting } from './web3Client';
+import WeMetaImage from './image.png';
 
 export const Header = () => {
 
     const [isConnected, setIsConnected] = useState(true);
 
-    const mintStream = async (e) => {
+    const mintStream = async (e, address) => {
         e.preventDefault();
 
         const nftPortApiKey = process.env.REACT_APP_NFT_PORT_API_KEY;
         const urlToMint = "https://api.nftport.xyz/v0/mints/easy/urls"
+        const params = {
+            params: {
+                "chain": "rinkeby",
+                "name": "MetaETF Hodler",
+                "description": "A free NFT for every user just for visiting our platform.",
+                "mint_to_address": address
+            }
+        }
         const body = {
-          "chain": "rinkeby",
-          "name": nameOfNft,
-          "description": descriptionOfNft,
-          "file_url": streamUrl,
-          "mint_to_address": address
+            file: WeMetaImage
         };
   
         const auth = {
@@ -27,14 +32,15 @@ export const Header = () => {
           }
         };
   
-        const res = await axios.post(urlToMint, body, auth);
+        const res = await axios.post(urlToMint, params, body, auth);
         
         if (res.status === 200) {
           alert("Successfully minted stream");
-          setNameOfNft("");
-          setDescriptionOfNft("");
-          // setAddress("");
-          setNftDeployedUrl(res.data.transaction_external_url);
+          const urlOfNFTDeployed = res.data.transaction_external_url;
+          console.log(urlOfNFTDeployed);
+        } else {
+            alert("Something went wrong");
+        }
     }
 
     return (
