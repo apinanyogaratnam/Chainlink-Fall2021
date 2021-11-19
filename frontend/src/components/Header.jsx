@@ -11,7 +11,8 @@ export const Header = () => {
     const [isConnected, setIsConnected] = useState(null);
     const [address, setAddress] = useState('');
 
-    const mintStream = async (e, address) => {
+    const mintStream = async (e) => {
+        return;
         e.preventDefault();
         if (!isConnected) {
             alert('Please connect to MetaMask');
@@ -87,8 +88,10 @@ export const Header = () => {
                 </div>
             </div>
             <Button onClick={viewGreeting}>view greeting</Button>
-            <Button onClick={undefined}>Claim your Free NFT</Button>
-            {address}
+            <form>
+                <input type="text" placeholder="Enter your address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                <Button onClick={e => mintStream(e)}>Claim your Free NFT</Button>
+            </form>
         </div>
     );
 };
