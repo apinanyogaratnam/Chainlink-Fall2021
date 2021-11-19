@@ -5,7 +5,7 @@ let selectedAccount;
 let greeterContract;
 let isInitialized = false;
 
-export const activateWeb3 = async () => {
+export const providerDetails = () => {
     let provider = window.ethereum;
 
     if (provider) {
@@ -15,7 +15,7 @@ export const activateWeb3 = async () => {
             })
             .then(accounts => {
                 selectedAccount = accounts[0];
-                console.log("selected account is", selectedAccount);
+                // console.log("selected account is", selectedAccount);
             })
             .catch(error => {
                 console.log(error);
@@ -24,9 +24,15 @@ export const activateWeb3 = async () => {
         
         window.ethereum.on('accountsChanged', function(accounts) {
             selectedAccount = accounts[0];
-            console.log("selected account is", selectedAccount);
+            // console.log("selected account is", selectedAccount);
         });
     }
+
+    return provider;
+}
+
+export const activateWeb3 = async () => {
+    let provider = providerDetails();
 
     const web3 = new Web3(provider);
 
@@ -36,6 +42,7 @@ export const activateWeb3 = async () => {
     );
 
     isInitialized = true;
+
     return selectedAccount;
 }
 
@@ -45,5 +52,5 @@ export const viewGreeting = async () => {
     }
 
     const res = await greeterContract.methods.getGreeting().call();
-    console.log(res);
+    // console.log(res);
 }

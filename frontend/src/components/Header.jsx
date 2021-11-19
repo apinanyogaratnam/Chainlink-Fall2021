@@ -5,7 +5,6 @@ import Greeter from '../Greeter.json';
 import { activateWeb3, viewGreeting } from './web3Client';
 import WeMetaImage from './image.png';
 import axios from 'axios';
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 
 export const Header = () => {
 
@@ -14,6 +13,10 @@ export const Header = () => {
 
     const mintStream = async (e, address) => {
         e.preventDefault();
+        if (!isConnected) {
+            alert('Please connect to MetaMask');
+            return;
+        }
 
         const nftPortApiKey = process.env.REACT_APP_NFT_PORT_API_KEY;
         const urlToMint = "https://api.nftport.xyz/v0/mints/easy/urls"
@@ -49,6 +52,8 @@ export const Header = () => {
     const connectWallet = async () => {
         const address = await activateWeb3();
         setAddress(address);
+        setIsConnected(true);
+        console.log(address);
     }
 
     return (
@@ -82,7 +87,7 @@ export const Header = () => {
                 </div>
             </div>
             <Button onClick={viewGreeting}>view greeting</Button>
-            <Button>Claim your Free NFT</Button>
+            <Button onClick={undefined}>Claim your Free NFT</Button>
             {address}
         </div>
     );
