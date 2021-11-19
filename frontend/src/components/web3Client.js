@@ -42,5 +42,7 @@ export const viewGreeting = async () => {
     if (!isInitialized) {
         await activateWeb3();
     }
-    greeterContract.methods.getGreeting().call();
+
+    const res = await greeterContract.methods.getGreeting().call();
+    console.log(res);
 }
