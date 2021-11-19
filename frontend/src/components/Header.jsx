@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Greeter from '../Greeter.json';
 import { activateWeb3, viewGreeting } from './web3Client';
 import WeMetaImage from './image.png';
+import axios from 'axios';
 
 export const Header = () => {
 
