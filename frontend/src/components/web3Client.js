@@ -36,6 +36,7 @@ export const activateWeb3 = async () => {
     );
 
     isInitialized = true;
+    return selectedAccount;
 }
 
 export const viewGreeting = async () => {

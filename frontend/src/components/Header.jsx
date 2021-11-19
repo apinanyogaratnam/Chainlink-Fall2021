@@ -5,10 +5,12 @@ import Greeter from '../Greeter.json';
 import { activateWeb3, viewGreeting } from './web3Client';
 import WeMetaImage from './image.png';
 import axios from 'axios';
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 
 export const Header = () => {
 
-    const [isConnected, setIsConnected] = useState(true);
+    const [isConnected, setIsConnected] = useState(null);
+    const [address, setAddress] = useState('');
 
     const mintStream = async (e, address) => {
         e.preventDefault();
@@ -44,12 +46,17 @@ export const Header = () => {
         }
     }
 
+    const connectWallet = async () => {
+        const address = await activateWeb3();
+        setAddress(address);
+    }
+
     return (
         <div>
             {
                 isConnected ? 
                 <Button>Connected</Button> :
-                <Button onClick={activateWeb3}>Connect</Button>
+                <Button onClick={connectWallet}>Connect</Button>
             }
             <div>Balance: {0} ETH</div>
             <div className="coins-container">
@@ -76,6 +83,7 @@ export const Header = () => {
             </div>
             <Button onClick={viewGreeting}>view greeting</Button>
             <Button>Claim your Free NFT</Button>
+            {address}
         </div>
     );
 };
