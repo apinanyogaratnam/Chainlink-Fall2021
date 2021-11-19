@@ -74,6 +74,7 @@ export const Header = () => {
                 </div>
             </div>
             <Button onClick={viewGreeting}>view greeting</Button>
+            <Button>Claim your Free NFT</Button>
         </div>
     );
 };
