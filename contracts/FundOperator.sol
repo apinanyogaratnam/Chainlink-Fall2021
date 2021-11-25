@@ -12,7 +12,7 @@ contract FundOperator is Ownable {
     
     mapping (uint8 => Token) public tokens;
 
-    constructor() {
+    constructor() public Ownable() {
     }
 
     function getLengthOfMapping() public view returns (uint8) {
@@ -67,7 +67,8 @@ contract FundOperator is Ownable {
     function buy(address _token, uint256 _amount) public payable {
         require(checkIfTokenExists(_token), "Token does not exist");
         require(_amount > 0, "Amount must be greater than 0");
-        require(msg.value == )
+        // user has funds to pay for the tokens
+        // require(msg.value == _amount * price)
 
         uint8 index = 0;
         while (true) {
@@ -80,7 +81,7 @@ contract FundOperator is Ownable {
 
         uint256 amount = _amount * tokens[index].weighting / 100;
         //FIXME: This is not the correct way to do this
-        _token.transfer(msg.sender, amount);
+        payable(msg.sender).transfer(amount);
 
         // msg.sender.transfer(msg.value - amount);
     }
