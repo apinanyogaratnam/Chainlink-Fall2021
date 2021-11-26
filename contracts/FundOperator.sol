@@ -15,7 +15,7 @@ contract FundOperator is Ownable {
     constructor() public Ownable() {
     }
 
-    function getLengthOfMapping() public view returns (uint8) {
+    function getLengthOfMapping() private view returns (uint8) {
         uint8 count = 0;
         while (true) {
             if (tokens[count].token != address(0)) {
@@ -28,7 +28,7 @@ contract FundOperator is Ownable {
         return count;
     }
 
-    function checkIfTokenExists(address _token) public view returns (bool) {
+    function checkIfTokenExists(address _token) private view returns (bool) {
         for (uint8 i = 0; i < getLengthOfMapping(); i++) {
             if (tokens[i].token == _token) {
                 return true;
@@ -70,18 +70,24 @@ contract FundOperator is Ownable {
         // user has funds to pay for the tokens
         // require(msg.value == _amount * price)
 
-        uint8 index = 0;
-        while (true) {
-            if (tokens[index].token == _token) {
-                break;
-            } else {
-                index++;
-            }
-        }
+        // uint8 index = 0;
+        // while (true) {
+        //     if (tokens[index].token == _token) {
+        //         break;
+        //     } else {
+        //         index++;
+        //     }
+        // }
 
-        uint256 amount = _amount * tokens[index].weighting / 100;
+        // uint256 amount = _amount * tokens[index].weighting / 100;
+
+        address _tokenAddr = "0x3845badAde8e6dFF049820680d1F14bD3903a5d0"; // sand
+        approve(this, _amount)
+        EIP20 token = EIP20(_token);
+        token.transferFrom(msg.sender, this, _amount);
+
         //FIXME: This is not the correct way to do this
-        payable(msg.sender).transfer(amount);
+        // payable(msg.sender).transfer(_amount);
 
         // msg.sender.transfer(msg.value - amount);
     }
