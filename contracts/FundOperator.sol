@@ -63,32 +63,4 @@ contract FundOperator is Ownable {
 
         tokens[getLengthOfMapping() - 1] = Token(address(0), 0);
     }
-
-    function buy(address _token, uint256 _amount) public payable {
-        require(checkIfTokenExists(_token), "Token does not exist");
-        require(_amount > 0, "Amount must be greater than 0");
-        // user has funds to pay for the tokens
-        // require(msg.value == _amount * price)
-
-        // uint8 index = 0;
-        // while (true) {
-        //     if (tokens[index].token == _token) {
-        //         break;
-        //     } else {
-        //         index++;
-        //     }
-        // }
-
-        // uint256 amount = _amount * tokens[index].weighting / 100;
-
-        address _tokenAddr = "0x3845badAde8e6dFF049820680d1F14bD3903a5d0"; // sand
-        approve(this, _amount)
-        EIP20 token = EIP20(_token);
-        token.transferFrom(msg.sender, this, _amount);
-
-        //FIXME: This is not the correct way to do this
-        // payable(msg.sender).transfer(_amount);
-
-        // msg.sender.transfer(msg.value - amount);
-    }
 }
