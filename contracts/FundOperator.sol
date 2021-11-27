@@ -12,11 +12,10 @@ contract FundOperator is Ownable {
     
     mapping (uint8 => Token) public tokens;
 
-    constructor() {
+    constructor() public Ownable() {
     }
 
-// fix function so it compiles
-    function getLengthOfMapping() public view returns (uint8) {
+    function getLengthOfMapping() private view returns (uint8) {
         uint8 count = 0;
         while (true) {
             if (tokens[count].token != address(0)) {
@@ -29,7 +28,7 @@ contract FundOperator is Ownable {
         return count;
     }
 
-    function checkIfTokenExists(address _token) public view returns (bool) {
+    function checkIfTokenExists(address _token) private view returns (bool) {
         for (uint8 i = 0; i < getLengthOfMapping(); i++) {
             if (tokens[i].token == _token) {
                 return true;
@@ -44,5 +43,24 @@ contract FundOperator is Ownable {
         require(_weighting >= 0 && _weighting <= 100, "Weighting must be between 0 and 100");
 
         tokens[getLengthOfMapping()] = Token(_token, _weighting);
-    }   
+    }
+
+    function removeAsset(address _token) public onlyOwner {
+        require(checkIfTokenExists(_token), "Token does not exist");
+
+        uint8 index = 0;
+        while (true) {
+            if (tokens[index].token == _token) {
+                break;
+            } else {
+                index++;
+            }
+        }
+
+        for (uint8 i = index; i < getLengthOfMapping() - 1; i++) {
+            tokens[i] = tokens[i + 1];
+        }
+
+        tokens[getLengthOfMapping() - 1] = Token(address(0), 0);
+    }
 }
