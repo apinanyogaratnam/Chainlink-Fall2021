@@ -33,7 +33,6 @@ export const Header = () => {
         // }
 
         const nftPortApiKey = process.env.REACT_APP_NFT_PORT_API_KEY;
-        console.log(nftPortApiKey);
         const urlToMint = "https://api.nftport.xyz/v0/mints/easy/urls";
         const wemetaImageUrl = "https://wemeta.world/WeMeta.png";
         const body = {
@@ -50,13 +49,21 @@ export const Header = () => {
             }
         };
     
-        const res = await axios.get(urlToMint, body, auth);
+        const res = await axios.post(urlToMint, body, auth);
         
         if (res.status === 200) {
           alert("Successfully minted your free NFT");
           const urlOfNFTDeployed = res.data.transaction_external_url;
           console.log(urlOfNFTDeployed);
           setDeployedNFT(urlOfNFTDeployed);
+
+          const ipfsBody = {
+              name: "WeMeta Image",
+              description: "Free claimed WeMeta ETF",
+              file_url: urlOfNFTDeployed
+          };
+
+          await axios.post('https://api.nftport.xyz/v0/metadata', ipfsBody, auth);
         } else {
             alert("Something went wrong");
         }
