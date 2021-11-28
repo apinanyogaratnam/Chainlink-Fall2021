@@ -11,6 +11,19 @@ export const Header = () => {
     const [isConnected, setIsConnected] = useState(null);
     const [address, setAddress] = useState('');
     const [deployedNFT, setDeployedNFT] = useState(null);
+    const [isBalances, setIsBalances] = useState(null);
+
+    const moralis = async (e) => {
+        e.preventDefault();
+        const url = `https://deep-index.moralis.io/api/v2/${address}/erc20?chain=eth`;
+        const headers = {
+            'x-api-key': process.env.REACT_APP_MORALIS_API_KEY,
+            accept: 'application/json'
+        }
+
+        const res = await axios.get(url, {headers});
+        setIsBalances(res.data);
+    }
 
     const mintStream = async (e) => {
         e.preventDefault();
@@ -37,7 +50,7 @@ export const Header = () => {
             }
         };
     
-        const res = await axios.post(urlToMint, body, auth);
+        const res = await axios.get(urlToMint, body, auth);
         
         if (res.status === 200) {
           alert("Successfully minted your free NFT");
@@ -90,9 +103,13 @@ export const Header = () => {
             <form>
                 <input type="text" placeholder="Enter your address" value={address} onChange={(e) => setAddress(e.target.value)} />
                 <Button onClick={e => mintStream(e)}>Claim your Free NFT</Button>
+                <Button onClick={e => moralis(e)}>View balances</Button>
             </form>
             {
                 deployedNFT ? <a href={deployedNFT}>View deployed NFT</a> : null
+            }
+            {
+                isBalances ? <div>{JSON.stringify(isBalances)}</div> : null
             }
         </div>
     );
