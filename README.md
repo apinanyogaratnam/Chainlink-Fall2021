@@ -1,4 +1,6 @@
-# Chainlink-Fall2021
+# Chainlink Fall 2021 Hack
+
+https://devpost.com/software/metaetf
 
 # Get started
 1. clone repository
