@@ -10,41 +10,40 @@ export const Header = () => {
 
     const [isConnected, setIsConnected] = useState(null);
     const [address, setAddress] = useState('');
+    const [deployedNFT, setDeployedNFT] = useState(null);
 
     const mintStream = async (e) => {
-        return;
         e.preventDefault();
-        if (!isConnected) {
-            alert('Please connect to MetaMask');
-            return;
-        }
+        // if (!isConnected) {
+        //     alert('Please connect to MetaMask');
+        //     return;
+        // }
 
         const nftPortApiKey = process.env.REACT_APP_NFT_PORT_API_KEY;
-        const urlToMint = "https://api.nftport.xyz/v0/mints/easy/urls"
-        const params = {
-            params: {
-                "chain": "rinkeby",
-                "name": "MetaETF Hodler",
-                "description": "A free NFT for every user just for visiting our platform.",
-                "mint_to_address": address
-            }
-        }
+        console.log(nftPortApiKey);
+        const urlToMint = "https://api.nftport.xyz/v0/mints/easy/urls";
+        const wemetaImageUrl = "https://wemeta.world/WeMeta.png";
         const body = {
-            file: WeMetaImage
-        };
-  
+            "chain": "rinkeby",
+            "name": "WeMeta ETF", // update to user's preferred nft name
+            "description": "Free claimed WeMeta ETF", // update to user's preferred nft description
+            "file_url": wemetaImageUrl,
+            "mint_to_address": address // update to user's preferred address
+          };
+    
         const auth = {
-          headers: {
-            Authorization: nftPortApiKey
-          }
+            headers: {
+                Authorization: nftPortApiKey
+            }
         };
-  
-        const res = await axios.post(urlToMint, params, body, auth);
+    
+        const res = await axios.post(urlToMint, body, auth);
         
         if (res.status === 200) {
-          alert("Successfully minted stream");
+          alert("Successfully minted your free NFT");
           const urlOfNFTDeployed = res.data.transaction_external_url;
           console.log(urlOfNFTDeployed);
+          setDeployedNFT(urlOfNFTDeployed);
         } else {
             alert("Something went wrong");
         }
@@ -92,6 +91,9 @@ export const Header = () => {
                 <input type="text" placeholder="Enter your address" value={address} onChange={(e) => setAddress(e.target.value)} />
                 <Button onClick={e => mintStream(e)}>Claim your Free NFT</Button>
             </form>
+            {
+                deployedNFT ? <a href={deployedNFT}>View deployed NFT</a> : null
+            }
         </div>
     );
 };
